@@ -16,3 +16,6 @@ use Illuminate\Support\Facades\Route;
 Auth::routes(['register' => true, 'verify' => false, 'reset' => false]);
 
 Route::get('/', 'HomeController@index')->name('home')->middleware('auth');
+
+Route::resource('vehicles', 'VehicleController')->middleware('auth');
+Route::resource('refuels', 'RefuelController')->middleware('auth');

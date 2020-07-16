@@ -14,6 +14,8 @@ class Fuel
     public const ELECTRICITY = 'Electricity';
     public const HYDROGEN = 'Hydrogen';
 
+    public const TYPES = [self::DIESEL, self::GASOLINE, self::NATURAL_GAS, self::LPG, self::ETHANOL, self::ELECTRICITY, self::HYDROGEN];
+
     public const UNITS = [
         self::DIESEL => ['long' => 'Liter', 'short' => 'L'],
         self::GASOLINE => ['long' => 'Liter', 'short' => 'L'],

@@ -36,4 +36,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the vehicles associated to the user.
+     */
+    public function vehicles()
+    {
+        return $this->hasMany('App\Vehicle', 'user_id', 'id');
+    }
 }
