@@ -6,11 +6,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-10">
-                @if (session('status'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
-                    </div>
-                @endif
+                @include('partials.alerts')
 
                 <div class="card">
                     <div class="card-header">
@@ -22,7 +18,7 @@
 
                     <div class="card-body">
 
-                        <form method="POST" action="{{ route('vehicles.store') }}">
+                        <form name="create" method="POST" action="{{ route('vehicles.store') }}">
                             @csrf
 
                             <div class="form-group">

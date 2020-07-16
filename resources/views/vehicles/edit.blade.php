@@ -6,11 +6,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-10">
-                @if (session('status'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
-                    </div>
-                @endif
+                @include('partials.alerts')
 
                 <div class="card">
                     <div class="card-header">
@@ -22,7 +18,7 @@
 
                     <div class="card-body">
 
-                        <form method="POST" action="{{ route('vehicles.update', $vehicle->id) }}">
+                        <form name="edit" id="form" method="POST" action="{{ route('vehicles.update', $vehicle->id) }}">
                             @csrf
                             @method('PATCH')
 
@@ -76,11 +72,7 @@
                             </div>
 
                             <button class="btn btn-primary" type="submit">Save vehicle</button>
-                            <button class="btn btn-outline-danger" onclick="$('#deleteForm').submit();">Delete vehicle</button>
-                        </form>
-                        <form id="deleteForm" action="{{ route('vehicles.destroy', $vehicle->id) }}">
-                            @csrf
-                            @method('DELETE')
+                            <button class="btn btn-outline-danger" onclick="$('input[name=\'_method\']').val('DELETE');$('#form').submit();">Delete vehicle</button>
                         </form>
                     </div>
                 </div>

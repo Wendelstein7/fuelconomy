@@ -63,7 +63,7 @@ class VehicleController extends Controller
 
         $vehicle->save();
 
-        return redirect()->route('vehicles.show', $vehicle->id);
+        return redirect()->route('vehicles.show', $vehicle->id)->with(['status'=> 'Vehicle is successfully created.']);
     }
 
     /**
@@ -117,17 +117,21 @@ class VehicleController extends Controller
 
         $vehicle->save();
 
-        return redirect()->route('vehicles.show', $vehicle->id);
+        return redirect()->route('vehicles.show', $vehicle->id)->with(['status'=> 'Vehicle is successfully updated.']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return Response
+     * @param  Vehicle  $vehicle
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(Vehicle $vehicle)
     {
-        //
+        if (! $vehicle->delete()) {
+            return back()->withErrors(['status' => __('Could not delete the specified vehicle!')]);
+        }
+
+        return redirect()->route('vehicles.index')->with(['status'=> 'Vehicle is successfully deleted.']);
     }
 }
