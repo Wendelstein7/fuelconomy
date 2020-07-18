@@ -37,74 +37,79 @@
 
                         <hr>
 
-                        <form action="{{ route('vehicles.refuels.store', $vehicle->id) }}" method="POST">
-                            @csrf
-                            <div class="form-row">
-                                <div class="col-lg mb-3">
-                                    <div class="form-group mb-0">
-                                        <label for="trip_distance">Trip Distance</label>
-                                        <div class="input-group @error('trip_distance') is-invalid @enderror">
-                                            <input type="number" min="0" max="1000000" step="0.001" class="form-control @error('trip_distance') is-invalid @enderror" id="trip_distance" name="trip_distance" placeholder="750" value="{{ old('trip_distance') }}" required>
-                                            <div class="input-group-append">
-                                                <div class="input-group-text">km</div>
+                        <div id="collapse" class="collapse show" aria-labelledby="headingOne">
+                            <button class="btn btn-light btn-block" data-toggle="collapse" data-target="#collapse" aria-expanded="false" aria-controls="collapse">Add refuel</button>
+                        </div>
+                        <div id="collapse" class="collapse" aria-labelledby="headingOne">
+                            <form action="{{ route('vehicles.refuels.store', $vehicle->id) }}" method="POST">
+                                @csrf
+                                <div class="form-row">
+                                    <div class="col-lg mb-3">
+                                        <div class="form-group mb-0">
+                                            <label for="trip_distance">Trip Distance</label>
+                                            <div class="input-group @error('trip_distance') is-invalid @enderror">
+                                                <input type="number" min="0" max="1000000" step="0.001" class="form-control @error('trip_distance') is-invalid @enderror" id="trip_distance" name="trip_distance" placeholder="750" value="{{ old('trip_distance') }}" required>
+                                                <div class="input-group-append">
+                                                    <div class="input-group-text">km</div>
+                                                </div>
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                @error('trip_distance')
+                                                {{ $message }}
+                                                @enderror
                                             </div>
                                         </div>
-                                        <div class="invalid-feedback">
-                                            @error('trip_distance')
-                                            {{ $message }}
-                                            @enderror
+                                    </div>
+                                    <div class="col-lg mb-3">
+                                        <div class="form-group mb-0">
+                                            <label for="fuel_amount">Fuel amount</label>
+                                            <div class="input-group @error('fuel_amount') is-invalid @enderror">
+                                                <input type="number" min="0" max="100" step="0.001" class="form-control @error('fuel_amount') is-invalid @enderror" id="fuel_amount" name="fuel_amount" placeholder="35" value="{{ old('fuel_amount') }}" required>
+                                                <div class="input-group-append">
+                                                    <div class="input-group-text">{{ \App\Fuel::UNITS[$vehicle->fuel_type]['short'] }}</div>
+                                                </div>
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                @error('fuel_amount')
+                                                {{ $message }}
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg mb-3">
+                                        <div class="form-group mb-0">
+                                            <label for="fuel_unit_price">Fuel price</label>
+                                            <div class="input-group @error('fuel_unit_price') is-invalid @enderror">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">€</div>
+                                                </div>
+                                                <input type="number" min="0" max="100" step="0.001" class="form-control @error('fuel_unit_price') is-invalid @enderror" id="fuel_unit_price" name="fuel_unit_price" placeholder="1.50" value="{{ old('fuel_unit_price') }}" required>
+                                                <div class="input-group-append">
+                                                    <div class="input-group-text">/ {{ \App\Fuel::UNITS[$vehicle->fuel_type]['short'] }}</div>
+                                                </div>
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                @error('fuel_unit_price')
+                                                {{ $message }}
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg mb-3">
+                                        <div class="form-group mb-0">
+                                            <label for="date">Date</label>
+                                            <input type="date" class="form-control @error('date') is-invalid @enderror" id="date" name="date" value="{{ old('date') ?? \Carbon\Carbon::now()->toDateString() }}" required>
+                                            <div class="invalid-feedback">
+                                                @error('date')
+                                                {{ $message }}
+                                                @enderror
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg mb-3">
-                                    <div class="form-group mb-0">
-                                        <label for="fuel_amount">Fuel amount</label>
-                                        <div class="input-group @error('fuel_amount') is-invalid @enderror">
-                                            <input type="number" min="0" max="100" step="0.001" class="form-control @error('fuel_amount') is-invalid @enderror" id="fuel_amount" name="fuel_amount" placeholder="35" value="{{ old('fuel_amount') }}" required>
-                                            <div class="input-group-append">
-                                                <div class="input-group-text">{{ \App\Fuel::UNITS[$vehicle->fuel_type]['short'] }}</div>
-                                            </div>
-                                        </div>
-                                        <div class="invalid-feedback">
-                                            @error('fuel_amount')
-                                            {{ $message }}
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg mb-3">
-                                    <div class="form-group mb-0">
-                                        <label for="fuel_unit_price">Fuel price</label>
-                                        <div class="input-group @error('fuel_unit_price') is-invalid @enderror">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">€</div>
-                                            </div>
-                                            <input type="number" min="0" max="100" step="0.001" class="form-control @error('fuel_unit_price') is-invalid @enderror" id="fuel_unit_price" name="fuel_unit_price" placeholder="1.50" value="{{ old('fuel_unit_price') }}" required>
-                                            <div class="input-group-append">
-                                                <div class="input-group-text">/ {{ \App\Fuel::UNITS[$vehicle->fuel_type]['short'] }}</div>
-                                            </div>
-                                        </div>
-                                        <div class="invalid-feedback">
-                                            @error('fuel_unit_price')
-                                            {{ $message }}
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg mb-3">
-                                    <div class="form-group mb-0">
-                                        <label for="date">Date</label>
-                                        <input type="date" class="form-control @error('date') is-invalid @enderror" id="date" name="date" value="{{ old('date') ?? \Carbon\Carbon::now()->toDateString() }}" required>
-                                        <div class="invalid-feedback">
-                                            @error('date')
-                                            {{ $message }}
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary" name="submit" type="submit">Submit refuel</button>
-                        </form>
+                                <button class="btn btn-primary btn-block" name="submit" type="submit">Submit refuel</button>
+                            </form>
+                        </div>
 
                         <hr>
 
