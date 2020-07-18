@@ -50,7 +50,7 @@
                                 <div class="input-group @error('odo') is-invalid @enderror">
                                     <input type="number" min="0" max="1000000" step="1" class="form-control @error('odo') is-invalid @enderror" id="odo" name="odo" placeholder="150000" value="{{ old('odo') }}" required>
                                     <div class="input-group-append">
-                                        <div class="input-group-text">KM</div>
+                                        <div class="input-group-text">km</div>
                                     </div>
                                 </div>
                                 <div class="invalid-feedback">

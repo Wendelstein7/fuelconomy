@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Database\Seeder;
 
 class VehicleSeeder extends Seeder
@@ -11,12 +12,9 @@ class VehicleSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('vehicles')->insertOrIgnore([
-            'user_id' => 1,
-            'name' => 'Silver Volkswagen Multivan',
-            'fuel_type' => \App\Fuel::DIESEL,
-            'initial_odo' => 290523,
-            'notes' => 'Model 2005, modified to RV 🚐',
-        ]);
+        User::all()->each(function ($user)
+        {
+            factory(App\Vehicle::class, 3)->create(['user_id' => $user->id]);
+        });
     }
 }

@@ -20,7 +20,8 @@ class CreateRefuelsTable extends Migration
             $table->foreignId('vehicle_id')->comment('Vehicle that was refueled')->constrained('vehicles')->onUpdate('cascade')->onDelete('cascade');
             $table->unsignedDecimal('trip_distance', '10', '3')->comment('Distance traveled since last refuel');
             $table->unsignedDecimal('fuel_amount', '6', '3')->comment('Amount of fuel units refueled');
-            $table->unsignedDecimal('fuel_unit_price', '6', '3')->comment('Fuel price per unit')->nullable();
+            $table->unsignedDecimal('fuel_unit_price', '6', '3')->comment('Fuel price per unit');
+            $table->date('date')->comment('The date the refuel happened');
             $table->string('notes')->comment('Notes')->nullable();
 
             $table->timestamps();

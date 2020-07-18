@@ -2,9 +2,21 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * @property int id
+ * @property int user_id User owning the vehicle
+ * @property string name Name of the vehicle
+ * @property string fuel_type Fuel type consumed by the vehicle
+ * @property int initial_odo The initial odometer value of the vehicle
+ * @property string notes Notes
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ */
 class Vehicle extends Model
 {
     /**
@@ -19,12 +31,12 @@ class Vehicle extends Model
     /**
      * Scope a query to only include vehicles that belong to the currently authenticated user.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  Builder  $query
+     * @return Builder
      */
     public function scopeFromCurrentUser($query)
     {
-        return $query->where('user_id',  Auth::id());
+        return $query->where('user_id', Auth::id());
     }
 
     /**

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Fuel;
 use App\Vehicle;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
@@ -15,7 +17,7 @@ class VehicleController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function index()
     {
@@ -30,7 +32,7 @@ class VehicleController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function create()
     {
@@ -43,7 +45,7 @@ class VehicleController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function store(Request $request)
     {
@@ -63,20 +65,21 @@ class VehicleController extends Controller
 
         $vehicle->save();
 
-        return redirect()->route('vehicles.show', $vehicle->id)->with(['status'=> 'Vehicle is successfully created.']);
+        return redirect()->route('vehicles.show', $vehicle->id)->with(['status' => 'Vehicle is successfully created.']);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|View
+     * @param  Vehicle  $vehicle
+     * @return Application|Factory|View
      */
     public function show(Vehicle $vehicle)
     {
         return view('vehicles.show')->with([
             'user' => Auth::user(),
             'vehicle' => $vehicle,
+            'refuels' => $vehicle->refuels()->orderBy('date', 'DESC')->paginate(5),
         ]);
     }
 
@@ -84,7 +87,7 @@ class VehicleController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  Vehicle  $vehicle
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|View
+     * @return Application|Factory|View
      */
     public function edit(Vehicle $vehicle)
     {
@@ -99,7 +102,7 @@ class VehicleController extends Controller
      *
      * @param  Request  $request
      * @param  Vehicle  $vehicle
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function update(Request $request, Vehicle $vehicle)
     {
@@ -117,14 +120,14 @@ class VehicleController extends Controller
 
         $vehicle->save();
 
-        return redirect()->route('vehicles.show', $vehicle->id)->with(['status'=> 'Vehicle is successfully updated.']);
+        return redirect()->route('vehicles.show', $vehicle->id)->with(['status' => 'Vehicle is successfully updated.']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  Vehicle  $vehicle
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function destroy(Vehicle $vehicle)
     {
@@ -132,6 +135,6 @@ class VehicleController extends Controller
             return back()->withErrors(['status' => __('Could not delete the specified vehicle!')]);
         }
 
-        return redirect()->route('vehicles.index')->with(['status'=> 'Vehicle is successfully deleted.']);
+        return redirect()->route('vehicles.index')->with(['status' => 'Vehicle is successfully deleted.']);
     }
 }
